@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 import greedy
 import stabu_search
-dists = [ [ 10,  0, 10, 20, 3, 4, 5 ],
-          [ 11,  10, 0, 2, 3, 4, 5 ],
-          [ 12,  20, 2, 0, 3, 4, 5 ],
-          [ 13,  3, 3, 3, 0, 4, 5 ],
-          [ 14,  4, 4, 4, 4, 0, 5 ],
-          [ 9,   5, 5, 5, 5, 5, 0 ],
-        ]
 
-#print(str(greedy.solve(dists)))
+# Generate simple example
+from helpers import gen_dists, compute_cost
+dists1 = gen_dists([(0,0), (-4,0), (1,4), (3,4), (3,2), (8,-6), (-2,-3), (-4,-3)])
+#print(dists1)
 
-print(str(stabu_search.solve(dists)))
+
+g_sol = greedy.solve(dists1)
+print("GREEDY SOLUTION:\t\t\t"+str(g_sol)+" ---> " + str(compute_cost(g_sol, dists1)))
+sts_sol = stabu_search.solve(dists1)
+print("SIMPLE TABOO SEARCH SOLUTION:\t\t"+ str(sts_sol)+ " ---> "+ str(compute_cost(sts_sol, dists1)))
