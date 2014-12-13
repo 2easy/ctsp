@@ -39,7 +39,11 @@ class SimpleTabooSearch:
                 # keep the best solution so far
                 if compute_cost(self.current, self.dists) < compute_cost(self.best, self.dists):
                     self.best = self.current[:]
+                    self.cost = compute_cost(self.best, self.dists)
+                    self.solution = self.best
             # tell the caller step was evaluated
+            else:
+                return False
             return True
         else:
             # tell the caller we are already done

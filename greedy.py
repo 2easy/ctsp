@@ -15,10 +15,10 @@ class Greedy:
         # choose best 3-tours
         visited = set([])
         for t in tours:
-            if set(t.cities_tuple())&visited == set([]):
-                for c in t.cities_tuple():
+            if set(t[1:])&visited == set([]):
+                for c in t[1:]:
                     visited.add(c)
-                self.solution.append(t.cities_tuple())
+                self.solution.append(t[1:])
         # and then append the cities that hadn't been choosen
         if len(self.dists) % 3 != 0:
             all_cities = set(range(1, self.ncities)) # do NOT include base

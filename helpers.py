@@ -1,27 +1,22 @@
 from itertools import permutations
 from math import sqrt
 from random import shuffle
-# TODO rethink if it's better to change tour class to module method creating tuples
 
-# One tour cycle object
-class Tour:
-    def __init__(self, city1,city2,city3, dists):
-        # find best tour through this three cities
-        self.tlen = float('+inf')
-        for c1,c2,c3 in permutations([city1,city2,city3]):
-            cur = compute_cost([(c1,c2,c3)], dists)
-            if cur < self.tlen:
-                self.tlen = cur
-                self.c1,self.c2,self.c3 = c1,c2,c3
+def tour(city1, city2, city3, dists):
+    """ creates shortest tour tuple from given cities
+        where tour tuple is (cost,city1,city2,city3) """
 
-    def cities_tuple(self):
-        return (self.c1, self.c2, self.c3)
-    def __str__(self):
-        return str(self.c1) + "->" + str(self.c2) + "->" + str(self.c3) + " = " + str(self.tlen)
-    def __cmp__(self,other):
-        return cmp(self.tlen, other.tlen)
+    # find best tour through this three cities
+    tlen = float('+inf')
+    for c1,c2,c3 in permutations([city1,city2,city3]):
+        cur = compute_cost([(c1,c2,c3)], dists)
+        if cur < tlen:
+            tlen = cur
+            cr1,cr2,cr3 = c1,c2,c3
+    return (tlen, cr1, cr2, cr3)
 
 def compute_cost(solution, dists):
+    """ computes cost of given solution -> array of city tuples """
     res = 0
     for t in solution:
         res += dists[0][t[0]] # base -> first city
@@ -31,13 +26,13 @@ def compute_cost(solution, dists):
     return res
 
 def all_3tours(ct, dists):
-    """generate all 3-lenght tours from ct = cities tuple"""
+    """generates all 3-lenght tours from ct -> cities tuple"""
     tours = []
     NCITIES = len(ct)
     for i in range(0, NCITIES):
         for j in range(i+1, NCITIES):
             for k in range(j+1, NCITIES):
-                tours.append(Tour(ct[i],ct[j],ct[k],dists))
+                tours.append(tour(ct[i],ct[j],ct[k],dists))
     return tours
 # NEIGHBOURHOOD helper functions
 def mix(t1, t2):
@@ -65,6 +60,7 @@ def neighbourhood_mix2t(solution):
     return res
 
 def gen_dists(points):
+    """ creates distance matrix from given list of point tuples """
     res = []
     for p1 in points:
         sub_res = []
