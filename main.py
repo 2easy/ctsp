@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from greedy import Greedy
 from stabu_search import SimpleTabooSearch
+from simulated_annealing import SimulatedAnnealing
 import simulated_annealing
 
 # Generate simple example
@@ -17,6 +18,11 @@ print("GREEDY SOLUTION:\t\t\t"+str(g_sol)+" ---> " + str(greedy.cost))
 sts = SimpleTabooSearch(dists1)
 sts_sol = sts.solve()
 print("SIMPLE TABOO SEARCH SOLUTION:\t\t"+ str(sts_sol)+ " ---> "+ str(sts.cost))
+
+san = SimulatedAnnealing(dists1)
+san_sol = san.solve(10)
+print("SIMULATED ANNEALING SOLUTION:\t\t"+ str(sts_sol)+ " ---> "+ str(sts.cost))
+
 
 # example usage of SimpleTabooSearch step by step with access to intermediate values
 #sts1 = SimpleTabooSearch(dists1)
