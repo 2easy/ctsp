@@ -6,12 +6,13 @@ from random import choice, random
 from math import exp
 
 # TODO choose start temp wiser, by experiment
-TEMP_START = 1000
+TEMP_START = 100000
 
 class SimulatedAnnealing:
-    def __init__(self, dists):
+    def __init__(self, dists, init_solution):
         self.dists = dists[:]
-        self.best = self.current = self.last = Greedy(dists).solve()
+        self.best = self.current = self.last = init_solution
+        self.cost = compute_cost(self.best, self.dists)
         
     def neighbourhood(self,solution):
         return neighbourhood_mix2t(solution)
@@ -29,6 +30,7 @@ class SimulatedAnnealing:
             
             if compute_cost(self.best, self.dists) > compute_cost(self.current, self.dists):
                 self.best = self.current
+                self.cost = compute_cost(self.best, self.dists)
             
             if dcost < 0:
                 self.last = self.current

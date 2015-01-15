@@ -1,6 +1,6 @@
 from itertools import permutations
 from math import sqrt
-from random import shuffle
+from random import shuffle, randint
 
 def tour(city1, city2, city3, dists):
     """ creates shortest tour tuple from given cities
@@ -23,6 +23,7 @@ def compute_cost(solution, dists):
         for c in range(len(t)-1):
             res += dists[t[c]][t[c+1]]
         res += dists[t[-1]][0] # last city -> base
+        
     return res
 
 def all_3tours(ct, dists):
@@ -70,3 +71,11 @@ def gen_dists(points):
             sub_res.append(round(sqrt(pow(x2-x1, 2)+pow(y2-y1, 2)), 2))
         res.append(sub_res)
     return res
+
+def gen_random(length):
+    res = []
+    while length > 0 :
+        res.append((randint(-2048, 2047),randint(-2048, 2047)))
+        length = length - 1
+    return res
+  

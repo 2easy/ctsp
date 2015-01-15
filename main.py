@@ -5,8 +5,10 @@ from simulated_annealing import SimulatedAnnealing
 import simulated_annealing
 
 # Generate simple example
-from helpers import gen_dists, compute_cost
-dists1 = gen_dists([(0,0), (-4,0), (1,4), (3,4), (3,2), (8,-6), (-2,-3), (-4,-3)])
+from helpers import gen_dists, compute_cost, gen_random
+#dists1 = gen_dists([(0,0), (-4,0), (1,4), (3,4), (3,2), (8,-6), (-2,-3), (-4,-3)])
+dists1 = gen_dists(gen_random(32))
+
 #print(dists1)
 
 # example usage of greedy algorithm sovle
@@ -19,9 +21,13 @@ sts = SimpleTabooSearch(dists1)
 sts_sol = sts.solve()
 print("SIMPLE TABOO SEARCH SOLUTION:\t\t"+ str(sts_sol)+ " ---> "+ str(sts.cost))
 
-san = SimulatedAnnealing(dists1)
-san_sol = san.solve(10)
-print("SIMULATED ANNEALING SOLUTION:\t\t"+ str(sts_sol)+ " ---> "+ str(sts.cost))
+san = SimulatedAnnealing(dists1,g_sol)
+san_sol = san.solve(100)
+print("GREEDY - SIMULATED ANNEALING SOLUTION:\t\t"+ str(san_sol)+ " ---> "+ str(san.cost))
+
+san2 = SimulatedAnnealing(dists1,sts_sol)
+san_sol2 = san2.solve(100)
+print("SIMPLE TABOO - SIMULATED ANNEALING SOLUTION:\t\t"+ str(san_sol2)+ " ---> "+ str(san2.cost))
 
 
 # example usage of SimpleTabooSearch step by step with access to intermediate values

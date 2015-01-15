@@ -20,7 +20,7 @@ class Greedy:
                     visited.add(c)
                 self.solution.append(t[1:])
         # and then append the cities that hadn't been choosen
-        if len(self.dists) % 3 != 0:
+        if len(self.dists) % 3 != 1:
             all_cities = set(range(1, self.ncities)) # do NOT include base
             not_visited = tuple(all_cities - visited)
             self.solution.append(not_visited)
