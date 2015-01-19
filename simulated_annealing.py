@@ -8,6 +8,7 @@ from math import exp
 # TODO choose start temp wiser, by experiment
 TEMP_START = 100000
 GFACTOR = 10.0
+LFACTOR = 10.0
 
 class SimulatedAnnealing:
     def __init__(self, dists, init_solution):
@@ -24,14 +25,14 @@ class SimulatedAnnealing:
             # heat up by random amount between two arbitrarily numbers
             return temp + randint(17,163)
         # if the temp is low - decrease geometricaly else lineary
-        elif i <= 10000:
+        elif i > 10000:
+            return temp - LFACTOR
+        else:
             new_temp = temp/GFACTOR
             if new_temp < 1:
                 return 1
             else:
                 return new_temp
-        else:
-            return temp - i
 
     def solve(self, it):
         i = 0
