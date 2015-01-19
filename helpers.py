@@ -81,6 +81,6 @@ def gen_random(length):
 
   
 def concat_0 (a, b):
-    return a + [0] + b
+    return list(a) + [0] + list(b)
   
   

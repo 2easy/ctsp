@@ -2,13 +2,13 @@
 from greedy import Greedy
 from stabu_search import SimpleTabooSearch
 from simulated_annealing import SimulatedAnnealing
-
+from ant_colony import AntColony
 
 
 # Generate simple example
 from helpers import gen_dists, compute_cost, gen_random
 #dists1 = gen_dists([(0,0), (-4,0), (1,4), (3,4), (3,2), (8,-6), (-2,-3), (-4,-3)])
-dists1 = gen_dists(gen_random(32))
+dists1 = gen_dists(gen_random(9))
 
 #print(dists1)
 
@@ -30,6 +30,7 @@ san2 = SimulatedAnnealing(dists1,sts_sol)
 san_sol2 = san2.solve(100)
 print("SIMPLE TABOO - SIMULATED ANNEALING SOLUTION:\t\t"+ str(san_sol2)+ " ---> "+ str(san2.cost))
 
+tmp = AntColony(dists1,g_sol)
 
 
 # example usage of SimpleTabooSearch step by step with access to intermediate values
