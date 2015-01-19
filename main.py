@@ -2,7 +2,8 @@
 from greedy import Greedy
 from stabu_search import SimpleTabooSearch
 from simulated_annealing import SimulatedAnnealing
-import simulated_annealing
+from helper import concat_0
+
 
 # Generate simple example
 from helpers import gen_dists, compute_cost, gen_random
@@ -28,6 +29,7 @@ print("GREEDY - SIMULATED ANNEALING SOLUTION:\t\t"+ str(san_sol)+ " ---> "+ str(
 san2 = SimulatedAnnealing(dists1,sts_sol)
 san_sol2 = san2.solve(100)
 print("SIMPLE TABOO - SIMULATED ANNEALING SOLUTION:\t\t"+ str(san_sol2)+ " ---> "+ str(san2.cost))
+
 
 
 # example usage of SimpleTabooSearch step by step with access to intermediate values
