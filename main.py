@@ -8,7 +8,7 @@ from ant_colony import AntColony
 # Generate simple example
 from helpers import gen_dists, compute_cost, gen_random
 #dists1 = gen_dists([(0,0), (-4,0), (1,4), (3,4), (3,2), (8,-6), (-2,-3), (-4,-3)])
-dists1 = gen_dists(gen_random(9))
+dists1 = gen_dists(gen_random(32))
 
 #print(dists1)
 
@@ -30,9 +30,9 @@ san2 = SimulatedAnnealing(dists1,sts_sol)
 san_sol2 = san2.solve(100)
 print("SIMPLE TABOO - SIMULATED ANNEALING SOLUTION:\t\t"+ str(san_sol2)+ " ---> "+ str(san2.cost))
 
-tmp = AntColony(dists1,g_sol)
-
-
+aco = AntColony(dists1,g_sol)
+aco_sol = aco.solve()
+print("ANT COLONY SOLUTION:\t\t"+ str(aco_sol)+ " ---> "+ str(aco.cost))
 # example usage of SimpleTabooSearch step by step with access to intermediate values
 #sts1 = SimpleTabooSearch(dists1)
 #while sts1.step():

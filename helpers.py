@@ -1,6 +1,6 @@
 from itertools import permutations
 from math import sqrt
-from random import shuffle, randint
+from random import shuffle, randint, uniform
 
 def tour(city1, city2, city3, dists):
     """ creates shortest tour tuple from given cities
@@ -82,5 +82,27 @@ def gen_random(length):
   
 def concat_0 (a, b):
     return list(a) + [0] + list(b)
+  
+def weighted_choice(choices):
+    total = sum(w for c, w in choices)
+    r = uniform(0, total)
+    upto = 0
+    for c, w in choices:
+        if upto + w > r:
+            return c
+        upto += w
+      
+def split_by_value(lst, value):
+    ret = []
+    tmp = []
+    for i in range(0, len(lst)):
+        if lst[i] == value and len(tmp) != 0:
+            ret.append(tuple(tmp))
+            tmp = []
+        elif lst[i] != value :
+            tmp.append(lst[i])
+    if len(tmp) != 0:
+        ret.append(tuple(tmp))
+    return ret
   
   
