@@ -80,3 +80,7 @@ def gen_random(length):
     return res
 
   
+def concat_0 (a, b):
+    return a + [0] + b
+  
+  

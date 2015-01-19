@@ -2,7 +2,7 @@
 from greedy import Greedy
 from stabu_search import SimpleTabooSearch
 from simulated_annealing import SimulatedAnnealing
-from helper import concat_0
+
 
 
 # Generate simple example
