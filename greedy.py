@@ -3,7 +3,7 @@ import helpers
 class Greedy:
     def __init__(self, dists):
         self.dists = dists[:]
-        self.ncities = len(self.dists) - 1
+        self.ncities = len(self.dists) 
         self.solution = []
         self.cost = 0
 
@@ -18,6 +18,7 @@ class Greedy:
             if set(t[1:])&visited == set([]):
                 for c in t[1:]:
                     visited.add(c)
+                print(str(visited))
                 self.solution.append(t[1:])
         # and then append the cities that hadn't been choosen
         if len(self.dists) % 3 != 1:
