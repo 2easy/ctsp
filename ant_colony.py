@@ -7,8 +7,8 @@ from math import exp
 import copy
 
 ITER = 3000
-C = 0.01
-ANT_NUMBER = 10
+C = 0.1
+ANT_NUMBER = 8
 
 
 class AntColony:
@@ -21,15 +21,18 @@ class AntColony:
         self.cost = compute_cost(init_solution, self.dists)
         self.cities = len(dists) 
         #initial pheromone amount
-        print(str(self.p[1]))
+        
         for i in range (0, self.cities):
             for j in range (0, self.cities):
                 if i != j:
-                  self.p[i][j] = 1.0/self.cities
+                  self.p[i][j] =1.0 /self.cities
                   
         #print(str(self.p))
-        self.update_pheromone(1/self.cost)
+        self.update_pheromone(1.0/self.cities)
         #print(str(self.p))
+        self.greedy = self.best
+        self.best = self.current = self.last = [(0,0,0)]
+        self.cost = 2000000000000000l
         
     def pick_random_neighbour(self, curr, visited):
         possible = list((set(range(0,self.cities)) - set(visited)) - set([curr]))
@@ -87,14 +90,17 @@ class AntColony:
               b = path
               c = cost
           #self.update_pheromone(1/c)
-      if random() > 0.9:
-          print(str(c))
-      return path
+      return b
     
     def solve(self):
         for i in range (0, ITER):
             if i % 100 == 0:
               print("ITER " + str(i) + " solution " + str(self.cost))
+              if compute_cost(self.greedy, self.dists) < self.best :
+                  tmp = self.best
+                  self.best = self.greedy
+                  self.update_pheromone(1.0/compute_cost(self.greedy, self.dists))
+                  self.best = tmp
               #print self.p
             path = self.run_ants()
             

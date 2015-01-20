@@ -18,17 +18,17 @@ g_sol = greedy.solve()
 print("GREEDY SOLUTION:\t\t\t"+str(g_sol)+" ---> " + str(greedy.cost))
 
 # example usage of SimpleTabooSearch find solution at once
-#sts = SimpleTabooSearch(dists1)
-#sts_sol = sts.solve()
-#print("SIMPLE TABOO SEARCH SOLUTION:\t\t"+ str(sts_sol)+ " ---> "+ str(sts.cost))
+sts = SimpleTabooSearch(dists1)
+sts_sol = sts.solve()
+print("SIMPLE TABOO SEARCH SOLUTION:\t\t"+ str(sts_sol)+ " ---> "+ str(sts.cost))
 
 san = SimulatedAnnealing(dists1,g_sol)
 san_sol = san.solve()
 print("GREEDY - SIMULATED ANNEALING SOLUTION:\t\t"+ str(san_sol)+ " ---> "+ str(san.cost))
 
-#san2 = SimulatedAnnealing(dists1,sts_sol)
-#san_sol2 = san2.solve(100)
-#print("SIMPLE TABOO - SIMULATED ANNEALING SOLUTION:\t\t"+ str(san_sol2)+ " ---> "+ str(san2.cost))
+san2 = SimulatedAnnealing(dists1,sts_sol)
+san_sol2 = san2.solve()
+print("SIMPLE TABOO - SIMULATED ANNEALING SOLUTION:\t\t"+ str(san_sol2)+ " ---> "+ str(san2.cost))
 
 aco = AntColony(dists1,g_sol)
 aco_sol = aco.solve()
