@@ -17,7 +17,7 @@ class SimulatedAnnealing:
         self.cost = compute_cost(self.best, self.dists)
 
     def neighbourhood(self,solution):
-        return neighbourhood_mix_n_t(solution, log(8 * len (solution)))
+        return neighbourhood_mix_n_t(solution, log(8 * len (solution)), self.dists)
 
     def update_temp(self,temp, i):
         # heat up from time to time, so that we can escape the local minima

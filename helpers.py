@@ -15,6 +15,15 @@ def tour(city1, city2, city3, dists):
             cr1,cr2,cr3 = c1,c2,c3
     return (tlen, cr1, cr2, cr3)
 
+def pick_longest_tour(tours, dists):
+    tlen = 0.0
+    for tour in tours:
+        cur = compute_cost([tour], dists)
+        if cur < tlen:
+            tlen = cur
+            ret = tour
+    return tour
+  
 def compute_cost(solution, dists):
     """ computes cost of given solution -> array of city tuples """
     res = 0
@@ -46,12 +55,14 @@ def mix(t1, t2):
             new_pairs.append([tuple(p1),tuple(p2)])
     return new_pairs
 
-def neighbourhood_mix2t(solution):
+def neighbourhood_mix2t(solution, dists):
     """ computes neighbourhood of current solution
         by mixing cities in two randomly choosen tours"""
     scopy = solution[:]
+    t1 = pick_longest_tour(solution, dists)
+    scopy.remove(t1)
     shuffle(scopy)
-    t1,t2 = scopy.pop(), scopy.pop()
+    t2 = scopy.pop()
 
     res = []
     for tp in mix(t1, t2):
@@ -60,12 +71,12 @@ def neighbourhood_mix2t(solution):
         res.append(tmp)
     return res
 
-def neighbourhood_mix_n_t(solution, n):
+def neighbourhood_mix_n_t(solution, n, dists):
   
     if n <= 0 :
-        return neighbourhood_mix2t(solution)
+        return neighbourhood_mix2t(solution, dists)
     else :
-        return neighbourhood_mix_n_t(neighbourhood_mix2t(solution)[0], n-1) + neighbourhood_mix_n_t(neighbourhood_mix2t(solution)[1], n-1)
+        return neighbourhood_mix_n_t(neighbourhood_mix2t(solution, dists)[0], n-1, dists) + neighbourhood_mix_n_t(neighbourhood_mix2t(solution, dists)[1], n-1, dists)
       
       
 def gen_dists(points):

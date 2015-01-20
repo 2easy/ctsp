@@ -7,8 +7,8 @@ from math import exp
 import copy
 
 ITER = 3000
-C = 0.1
-ANT_NUMBER = 8
+C = 0.05
+ANT_NUMBER = 16
 
 
 class AntColony:
@@ -32,7 +32,7 @@ class AntColony:
         #print(str(self.p))
         self.greedy = self.best
         self.best = self.current = self.last = [(0,0,0)]
-        self.cost = 2000000000000000l
+        self.cost = float('+inf')
         
     def pick_random_neighbour(self, curr, visited):
         possible = list((set(range(0,self.cities)) - set(visited)) - set([curr]))
@@ -73,15 +73,16 @@ class AntColony:
             #as we should have one edge in, and one out, btu we have base_trip_number to/from base, we should scale a bit pheromone on those edges
             if path[i] == 0 or path[i+1] == 0:
                 self.p[path[i]][path[i+1]] += (1.0 / base_trip_factor) * factor
+                self.p[path[i+1]][path[i]] += (1.0 / base_trip_factor) * factor
             else : 
-                
                 self.p[path[i]][path[i+1]] += factor
+                self.p[path[i+1]][path[i]] += factor
                 
                   
     
     def run_ants(self):
       b = [0]
-      c = 200000000000000l
+      c = float('+inf')
       for i in range (0, ANT_NUMBER):
           path = self.random_path(0,0, [-1])
           #print(str(split_by_value(path, 0)))

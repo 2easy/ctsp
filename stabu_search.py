@@ -13,7 +13,7 @@ class SimpleTabooSearch:
         self.solution = self.best
 
     def neighbourhood(self, solution):
-        return neighbourhood_mix2t(solution)
+        return neighbourhood_mix2t(solution, self.dists)
 
     def exclude(self, solutions, taboo):
         res = []
