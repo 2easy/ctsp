@@ -2,14 +2,14 @@
 
 from greedy import Greedy 
 from helpers import compute_cost, neighbourhood_mix2t, concat_0, weighted_choice, split_by_value
-from random import choice, random
+from random import choice, random, shuffle
 from math import exp
 import copy
 
 ITER = 3000
-C = 1.0/512.0
-PHEROMONE_STR = 1.0/2.0
-# decay coefficient =  C * exp (1 -(random path)/(opt))
+C = 0.01
+ANT_NUMBER = 10
+
 
 class AntColony:
   
@@ -18,18 +18,18 @@ class AntColony:
         self.dists = dists[:]
         self.p = copy.deepcopy(dists)
         self.best = self.current = self.last = init_solution
-        self.cost = compute_cost(self.best, self.dists)
-        self.cities = len(dists)
-        
+        self.cost = compute_cost(init_solution, self.dists)
+        self.cities = len(dists) 
         #initial pheromone amount
+        print(str(self.p[1]))
         for i in range (0, self.cities):
             for j in range (0, self.cities):
                 if i != j:
-                  self.p[i][j] = C*exp(1 - self.dists[i][j]/self.cost)
-        print(str(self.p))
-        self.update_pheromone(reduce(concat_0, init_solution, []) + [0])
-        print(str(self.p))
-        
+                  self.p[i][j] = 1.0/self.cities
+                  
+        #print(str(self.p))
+        self.update_pheromone(1/self.cost)
+        #print(str(self.p))
         
     def pick_random_neighbour(self, curr, visited):
         possible = list((set(range(0,self.cities)) - set(visited)) - set([curr]))
@@ -51,28 +51,58 @@ class AntColony:
                 return self.random_path(num+1, random_n, visited + [random_n]) + [random_n]
             else :
                 return self.random_path(0, 0, visited) + [0]
-        #     make random search - it's dfs-like thing, but we dont take first neighbour but random one 
-        #     (also we need to remember we need visit starting point after visitig three nodes)
         
-    def update_pheromone(self, path):
-        psi = C * exp(1 - compute_cost(self.current, self.dists)/self.cost) 
+    def update_pheromone(self, factor):
+        
+        path = reduce(concat_0, self.best, []) + [0]
+        #print(str(path))
+        psi = C
+        #as we need be in base every few cities, i should change pheromone management for from/to base edges
+        base_trip_factor = 12 * path.count(0)
+        
         for i in range (0, self.cities):
             for j in range (0, self.cities):
                 if i != j:
                   self.p[i][j] *= (1-psi)
+            
+        for i in range(0, len(path) - 1):
+            
+            #as we should have one edge in, and one out, btu we have base_trip_number to/from base, we should scale a bit pheromone on those edges
+            if path[i] == 0 or path[i+1] == 0:
+                self.p[path[i]][path[i+1]] += (1.0 / base_trip_factor) * factor
+            else : 
+                
+                self.p[path[i]][path[i+1]] += factor
+                
                   
-        for i in range(0, self.cities - 1):
-            self.p[path[i]][path[i+1]] += PHEROMONE_STR * psi
-        
+    
+    def run_ants(self):
+      b = [0]
+      c = 200000000000000l
+      for i in range (0, ANT_NUMBER):
+          path = self.random_path(0,0, [-1])
+          #print(str(split_by_value(path, 0)))
+          cost = compute_cost(split_by_value(path, 0), self.dists)
+          if cost < c :
+              b = path
+              c = cost
+          #self.update_pheromone(1/c)
+      if random() > 0.9:
+          print(str(c))
+      return path
+    
     def solve(self):
         for i in range (0, ITER):
-            if i % 1000 == 0:
-              print("ITER " + str(i))
-            path = self.random_path(0,0, [-1])
+            if i % 100 == 0:
+              print("ITER " + str(i) + " solution " + str(self.cost))
+              #print self.p
+            path = self.run_ants()
             
             self.current = split_by_value(path,0)
-            if compute_cost(self.current, self.dists) < self.cost :
+            cost = compute_cost(self.current, self.dists) 
+            if  cost < self.cost :
                 self.best = self.current
-                self.cost = compute_cost(self.current, self.dists)
-            self.update_pheromone(path)
+                self.cost = cost
+            self.update_pheromone(1/(self.cost))
+        #print(str(self.p))
         return self.best

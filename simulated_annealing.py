@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
 from greedy import Greedy 
-from helpers import compute_cost, neighbourhood_mix2t
+from helpers import compute_cost, neighbourhood_mix_n_t
 from random import choice, random, randint
-from math import exp
+from math import exp, log
 
 # TODO choose start temp wiser, by experiment
 TEMP_START = 100000
@@ -17,7 +17,7 @@ class SimulatedAnnealing:
         self.cost = compute_cost(self.best, self.dists)
 
     def neighbourhood(self,solution):
-        return neighbourhood_mix2t(solution)
+        return neighbourhood_mix_n_t(solution, log(8 * len (solution)))
 
     def update_temp(self,temp, i):
         # heat up from time to time, so that we can escape the local minima
@@ -34,7 +34,7 @@ class SimulatedAnnealing:
             else:
                 return new_temp
 
-    def solve(self, it):
+    def solve(self):
         i = 0
         temp = TEMP_START
         # TODO update stop condition to separate function
@@ -56,7 +56,4 @@ class SimulatedAnnealing:
 
             temp = self.update_temp(temp, i)
             i += 1
-        if it == 0 :
-            return self.best
-        else:
-            return self.solve(it-1)
+        return self.best

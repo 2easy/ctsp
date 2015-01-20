@@ -60,6 +60,14 @@ def neighbourhood_mix2t(solution):
         res.append(tmp)
     return res
 
+def neighbourhood_mix_n_t(solution, n):
+  
+    if n <= 0 :
+        return neighbourhood_mix2t(solution)
+    else :
+        return neighbourhood_mix_n_t(neighbourhood_mix2t(solution)[0], n-1) + neighbourhood_mix_n_t(neighbourhood_mix2t(solution)[1], n-1)
+      
+      
 def gen_dists(points):
     """ creates distance matrix from given list of point tuples """
     res = []
@@ -89,8 +97,14 @@ def weighted_choice(choices):
     upto = 0
     for c, w in choices:
         if upto + w > r:
+            if w == 0:
+              print(str(choices))
+              assert false
             return c
         upto += w
+    print("warning - no choice were done")
+    print(str(choices))
+    return choices[-1][0]
       
 def split_by_value(lst, value):
     ret = []
@@ -101,6 +115,8 @@ def split_by_value(lst, value):
             tmp = []
         elif lst[i] != value :
             tmp.append(lst[i])
+        if lst[i] == None:
+          print(str(lst))
     if len(tmp) != 0:
         ret.append(tuple(tmp))
     return ret
