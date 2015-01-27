@@ -94,8 +94,10 @@ class AntColony:
       return b
     
     def solve(self):
+        res_file = open('antresults', 'w')
         for i in range (0, ITER):
             if i % 100 == 0:
+              #res_file.write(str(self.cost)+"\n")
               print("ITER " + str(i) + " solution " + str(self.cost))
               if compute_cost(self.greedy, self.dists) < self.best :
                   tmp = self.best
@@ -107,9 +109,13 @@ class AntColony:
             
             self.current = split_by_value(path,0)
             cost = compute_cost(self.current, self.dists) 
+            if self.cost - cost < 1000:
+                res_file.write(str(cost)+"\n")
+
             if  cost < self.cost :
                 self.best = self.current
                 self.cost = cost
             self.update_pheromone(1/(self.cost))
         #print(str(self.p))
+        res_file.close()
         return self.best

@@ -52,9 +52,11 @@ class SimpleTabooSearch:
             return False
 
     def solve(self):
+        res_file = open('tabooresults', 'w')
         # TODO generalize stop condition by funciton
         while self.i < 1000:
             candidates = self.exclude(self.neighbourhood(self.current), self.taboo)
+
             if candidates:
                 self.current,self.taboo = self.best_from(candidates, self.dists, self.taboo)
                 self.i += 1
@@ -65,4 +67,6 @@ class SimpleTabooSearch:
                 self.best = self.current[:]
                 self.cost = compute_cost(self.best, self.dists)
                 self.solution = self.best
+            res_file.write(str(self.cost)+"\n")
+        res_file.close()
         return self.best

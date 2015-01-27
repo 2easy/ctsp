@@ -35,10 +35,11 @@ class SimulatedAnnealing:
                 return new_temp
 
     def solve(self):
+        res_file = open('annealingresults', 'w')
         i = 0
         temp = TEMP_START
         # TODO update stop condition to separate function
-        while i < 1000:
+        while i < 3000:
             self.current = choice(self.neighbourhood(self.current))
             dcost = float(compute_cost(self.current, self.dists) - compute_cost(self.last, self.dists))
 
@@ -56,4 +57,6 @@ class SimulatedAnnealing:
 
             temp = self.update_temp(temp, i)
             i += 1
+            res_file.write(str(self.cost)+"\n")
+        res_file.close()
         return self.best
